@@ -119,6 +119,15 @@ copiar_archivo "$II/hypr/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
 for app in matugen Kvantum kde-material-you-colors fuzzel kitty wlogout; do
   copiar_dir "$II/$app" "$HOME/.config/$app"
 done
+# ii arranca este script al iniciar; lo rellena end4-pC si pones un video de fondo
+VIDEO=$HOME/.config/hypr/custom/scripts/__restore_video_wallpaper.sh
+[[ -f $VIDEO ]] || copiar_archivo "$FUENTES/ii/dots/.config/hypr/custom/scripts/${VIDEO##*/}" "$VIDEO"
+# Foto de usuario de la interfaz: la de la cuenta (AccountsService), si hay
+if [[ ! -e $HOME/.face && -r /var/lib/AccountsService/icons/$USER ]]; then
+  hacer cp "/var/lib/AccountsService/icons/$USER" "$HOME/.face"
+fi
+# Si ya habia ajustes de end4-pC, sus tiempos de inactividad vuelven a hypridle.conf
+hacer "$HOME/.config/hypr/scripts/ajustes-end4.py" reaplicar || true
 [[ -d $RESPALDO ]] && echo "Copia de lo anterior: $RESPALDO"
 
 verde "Fuente Google Sans Flex"

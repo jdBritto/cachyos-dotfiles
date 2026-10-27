@@ -97,6 +97,12 @@ Los atajos son los de illogical-impulse; `Super + /` los muestra todos.
 
 - **Modos**: *equilibrado* (los efectos que elijas en los ajustes), *rendimiento*
   (sin desenfoque ni sombras, CPU al máximo) y *ahorro* (sin efectos, para la batería).
+  El botón de perfil de energía de end4-pC (barra y panel derecho) cambia el modo también.
+- **Un solo sitio para los ajustes**: teclado, touchpad, distribución de ventanas,
+  pantallas y tiempos de inactividad se cambian en los ajustes de end4-pC
+  (`Super + Escape` > Hyprland). La primera vez se ponen los de este equipo: teclado
+  de CachyOS, desplazamiento natural, bloquear a los 5 min, apagar la pantalla a los 6
+  y suspender a los 30 (solo con batería).
 
 ## Personalizar
 
@@ -107,7 +113,9 @@ Todo está en `~/.config/hypr/`:
 | `personal.lua` | **Tus cambios.** Se carga al final y el instalador nunca lo sobrescribe |
 | `custom/` | Lo de este repositorio: teclado, touchpad, reglas, atajos extra, modo de energía |
 | `hyprland/` | Base de illogical-impulse. No la edites: se reemplaza al actualizar |
-| `scripts/` | Centro, modo de energía, distribución, pantallas |
+| `scripts/` | Centro, modo de energía, distribución, pantallas, `ajustes-end4.py` |
+| `monitors.lua` | Pantallas (lo guardan los ajustes de end4-pC y nwg-displays) |
+| `hyprland/shellOverrides/` | Lo que cambias en los ajustes de end4-pC (no lo edites a mano) |
 
 Comprueba la configuración sin reiniciar:
 `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua`.

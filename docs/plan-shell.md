@@ -80,5 +80,18 @@ nombre "Hyprland Parrot", el Centro Parrot y el extra BlackArch.
 2. ✅ `extras/shell.sh`: clona ii y end4-pC fijados, copia lo necesario, fuente Google Sans
    Flex, venv con uv, grupos, i2c, ydotool.
 3. ✅ `hyprland.lua` nuevo + `custom/*.lua`; `install.sh` sin Parrot y con la interfaz siempre.
-4. Probar en el equipo: reiniciar, Centro, modos, suspender, monitor externo, VPN.
+4. ✅ Probado en el equipo (2026-10-27, Hyprland 0.56.2, quickshell 0.3.2). Arreglos:
+   - Los overrides de end4-pC pisaban la capa `custom/`: teclado en `us` en vez de
+     `latam`, sin desplazamiento natural. Ahora config.json de end4-pC es la única fuente
+     (`scripts/ajustes-end4.py`, valores iniciales del portátil una sola vez).
+   - `hyprland.lua` no cargaba `monitors.lua`: se perdían las pantallas guardadas
+     en los ajustes de end4-pC. `custom/pantallas.lua` queda para el `monitors.conf` antiguo.
+   - `hypridle.conf` con el formato que edita end4-pC (`$suspend_cmd`): antes, cambiar
+     "suspender" en los ajustes añadía un bloque roto. Bloqueo con la pantalla de
+     end4-pC (hyprlock si la interfaz no está), `inhibit_sleep`, `scripts/suspender.sh`.
+   - El botón de perfil de energía de end4-pC y `Super + Alt + P` van sincronizados
+     (`modo.sh vigilar`). `Super + Alt + D` guarda la distribución en end4-pC.
+   - Faltaba `custom/scripts/__restore_video_wallpaper.sh` (lo arranca ii); `~/.face`
+     desde AccountsService.
+   - Pendiente de probar a mano: bloqueo (`Super + L`), suspender, monitor externo, VPN.
 5. Ideas: página propia en los ajustes de end4-pC para el modo de energía; preset propio.

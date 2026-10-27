@@ -254,7 +254,7 @@ quiere herramientas && copiar .config/mise
 if ! $SIMULAR; then
   # personal.lua es tuyo: solo se copia la primera vez
   [[ -f $HOME/.config/hypr/personal.lua ]] || cp "$REPO/home/.config/hypr/personal.lua" "$HOME/.config/hypr/"
-  chmod +x "$HOME"/.config/hypr/scripts/*.sh
+  chmod +x "$HOME"/.config/hypr/scripts/*.{sh,py}
   xdg-user-dirs-update 2>/dev/null || true
 fi
 

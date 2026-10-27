@@ -3,7 +3,7 @@
 
 HYPR="$HOME/.config/hypr"
 SCRIPTS="$HYPR/scripts"
-ESTADO="$HOME/.local/state/hypr-cachyos"   # modo y distribucion guardados
+ESTADO="$HOME/.local/state/hypr-cachyos"   # modo guardado
 mkdir -p "$ESTADO"
 
 # Menu con fuzzel (usa los colores de end4-pC: ~/.config/fuzzel). Uso: menu "Titulo" [opciones] < lineas

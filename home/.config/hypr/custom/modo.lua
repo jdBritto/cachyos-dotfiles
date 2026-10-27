@@ -1,16 +1,9 @@
--- Modo de energia (Super + Alt + P) y distribucion de ventanas (Super + Alt + D).
+-- Modo de energia (Super + Alt + P, o el boton de perfil de energia de end4-pC).
 -- Se carga al final para mandar sobre lo que guarde la interfaz:
 --   equilibrado -> como lo dejaste en los ajustes de end4-pC
 --   rendimiento -> sin desenfoque ni sombras
 --   ahorro      -> sin efectos ni animaciones, menos cuadros en ventanas sin foco (bateria)
 local B = require("custom.base")
-
-hl.config({
-    general = { layout = B.distribucion },
-    dwindle   = { preserve_split = true, smart_resizing = true },
-    master    = { new_status = "master", mfact = 0.55 },
-    scrolling = { fullscreen_on_one_column = true, column_width = 0.6 },
-})
 
 if B.modo ~= "equilibrado" then
     hl.config({

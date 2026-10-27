@@ -6,7 +6,7 @@ source "$(dirname "$0")/comun.sh"
 S=$SCRIPTS
 
 modo=$("$S/modo.sh" estado)
-dist=$(cat "$ESTADO/distribucion" 2>/dev/null || echo dwindle)
+dist=$("$S/ajustes-end4.py" ver general.layout 2>/dev/null || echo dwindle)
 case $dist in dwindle) dist=mosaico ;; scrolling) dist=columnas ;; master) dist=principal ;; esac
 
 opciones=(

@@ -17,7 +17,17 @@ Responder siempre en **español**, con mensajes cortos y sencillos.
 - `hyprland/`, `hyprlock/`, `hyprlock.conf` vienen de ii (los copia `extras/shell.sh`).
 - `custom/`: teclado del sistema, touchpad, pantallas (nwg-displays → `monitors.conf`), reglas,
   atajos extra (Super + I Centro, Super + Escape ajustes end4-pC, Super + Alt + P/D), modo.
-- Estado de los scripts en `~/.local/state/hypr-cachyos/` (modo, distribucion).
+- Estado de los scripts en `~/.local/state/hypr-cachyos/` (modo, marca `ajustes-iniciales`).
+- **Fuente de verdad de los ajustes = `~/.config/illogical-impulse/config.json`** (`hyprland.*`).
+  Al abrir su página de Hyprland, end4-pC reescribe `shellOverrides/main.lua` desde ahí
+  (pisa teclado, touchpad, layout de `custom/`). Para cambiarlos desde scripts:
+  `scripts/ajustes-end4.py poner general.layout scrolling` (toca config.json + overrides).
+  `ajustes-end4.py inicial` (al arrancar, una vez) pone los valores del portátil.
+- end4-pC reescribe los bloques `listener` de `hypridle.conf` (los reconoce por
+  `loginctl lock-session`, `dpms` y `$suspend_cmd`): mantener ese formato.
+- `monitors.lua`/`workspaces.lua` los escriben end4-pC y nwg-displays 0.5; `hyprland.lua` los carga.
+- `modo.sh vigilar` escucha power-profiles-daemon por D-Bus: el botón de energía de end4-pC
+  cambia el modo de Hyprland.
 - ii y end4-pC se clonan en commits fijados (`extras/shell.sh`) en `~/.local/share/hypr-cachyos/fuentes`.
 - **Nunca** ejecutar `./setup install` de end-4: hace `rsync --delete` sobre `~/.config/hypr`.
 
