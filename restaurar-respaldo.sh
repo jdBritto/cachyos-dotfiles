@@ -2,7 +2,8 @@
 # Restaura tu respaldo personal en CachyOS: Google Drive (rclone) y la VPN.
 #
 # Uso:  ./restaurar-respaldo.sh [ARCHIVO.tar.gz] [--si] [--forticlient]
-#   ARCHIVO        el respaldo (por defecto el mas nuevo ~/respaldo-cachyos-*.tar.gz)
+#   ARCHIVO        el respaldo (por defecto el mas nuevo ~/respaldo-cachyos-*.tar.gz[.gpg])
+#                  Si esta cifrado (.gpg) pide la contrasena.
 #   --si           sin preguntas
 #   --forticlient  instala tambien FortiClient VPN (AUR) ademas de openfortivpn
 #
@@ -28,7 +29,7 @@ done
 [[ $EUID -ne 0 ]] || error "No lo ejecutes con sudo; ejecutalo como tu usuario normal."
 
 if [[ -z $ARCHIVO ]]; then
-  ARCHIVO=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz 2>/dev/null | sort | tail -n1 || true)
+  ARCHIVO=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz{.gpg,} 2>/dev/null | sort | tail -n1 || true)
 fi
 [[ -f $ARCHIVO ]] || error "No encuentro el respaldo. Copia respaldo-cachyos-*.tar.gz a tu carpeta personal o pasa la ruta."
 echo "Respaldo: $ARCHIVO"
@@ -36,7 +37,13 @@ echo "Respaldo: $ARCHIVO"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 umask 077
-tar xzf "$ARCHIVO" -C "$TMP"
+if [[ $ARCHIVO == *.gpg ]]; then
+  command -v gpg >/dev/null || sudo pacman -S --needed --noconfirm gnupg
+  echo "El respaldo esta cifrado: escribe su contrasena."
+  gpg --quiet --decrypt "$ARCHIVO" | tar xz -C "$TMP" || error "No se pudo descifrar (contrasena incorrecta?)."
+else
+  tar xzf "$ARCHIVO" -C "$TMP"
+fi
 R="$TMP/respaldo-cachyos"
 [[ -d $R ]] || error "El archivo no parece un respaldo valido."
 umask 022
