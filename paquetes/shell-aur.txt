@@ -1,0 +1,11 @@
+# Escritorio Shell end4-pC: fuentes y temas de AUR (se instalan con paru)
+# Sacado de end-4/dots-hyprland 2f2a376.
+adw-gtk-theme-git
+breeze-plus
+darkly-bin
+otf-space-grotesk
+qt6-avif-image-plugin
+ttf-material-symbols-variable-git
+ttf-readex-pro
+ttf-rubik-vf
+ttf-twemoji

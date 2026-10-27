@@ -1,0 +1,98 @@
+# Escritorio Shell end4-pC: dependencias de illogical-impulse (repositorios oficiales)
+# Sacado de end-4/dots-hyprland 2f2a376, sdata/dist-arch/illogical-impulse-*/PKGBUILD.
+# No se repiten los que ya estan en hyprland.txt, apps.txt o herramientas.txt.
+# Fuera a proposito: microtex (formulas en el chat de IA) y el cursor Bibata.
+
+# Quickshell: la 0.3.2 oficial es el mismo commit que fija ii (4f508be)
+quickshell
+
+# audio
+cava
+pavucontrol-qt
+wireplumber
+pipewire-pulse
+libdbusmenu-gtk3
+
+# backlight
+geoclue
+ddcutil
+
+# basic
+bc
+coreutils
+cmake
+wget
+ripgrep
+rsync
+go-yq
+
+# fonts-themes
+breeze
+eza
+fish
+fontconfig
+matugen
+starship
+
+# kde
+bluedevil
+gnome-keyring
+plasma-nm
+polkit-kde-agent
+dolphin
+systemsettings
+
+# portal
+xdg-desktop-portal
+xdg-desktop-portal-kde
+
+# python
+clang
+uv
+gtk4
+libadwaita
+libsoup3
+libportal-gtk4
+gobject-introspection
+
+# screencapture
+hyprshot
+tesseract
+tesseract-data-eng
+wf-recorder
+
+# toolkit
+upower
+wtype
+ydotool
+
+# widgets
+glib2
+songrec
+translate-shell
+wlogout
+libqalculate
+
+# Lo que la interfaz de Quickshell necesita (de illogical-impulse-quickshell-git)
+cpptrace
+jemalloc
+kdialog
+kirigami
+libdrm
+libpipewire
+libxcb
+mesa
+qt6-5compat
+qt6-base
+qt6-declarative
+qt6-imageformats
+qt6-multimedia
+qt6-positioning
+qt6-quicktimeline
+qt6-sensors
+qt6-svg
+qt6-tools
+qt6-translations
+qt6-virtualkeyboard
+syntax-highlighting
+wayland

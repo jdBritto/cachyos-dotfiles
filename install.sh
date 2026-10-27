@@ -5,6 +5,9 @@
 # Uso:  ./install.sh            (pregunta)
 #       ./install.sh --si       (sin preguntas: lo recomendado)
 #       ./install.sh --simular  (muestra lo que haria, sin instalar ni copiar nada)
+#       ./install.sh --con=bateria,blackarch --sin=apps
+#                               (marca o desmarca extras sin el menu: apps, herramientas,
+#                                blackarch, respaldo, bateria)
 #
 # Es seguro ejecutarlo mas de una vez. Antes de sobrescribir guarda una copia
 # de tus archivos en ~/.config-respaldo-<fecha>.
@@ -22,11 +25,14 @@ error() { printf '\033[1;31m[error] %s\033[0m\n' "$*" >&2; exit 1; }
 # ---------------------------------------------------------------- opciones
 PREGUNTAR=true
 SIMULAR=false
+CON="" SIN=""
 for arg in "$@"; do
   case "$arg" in
     --si)       PREGUNTAR=false ;;
     --simular)  SIMULAR=true ;;
-    -h|--help)  sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    --con=*)    CON+=",${arg#--con=}" ;;
+    --sin=*)    SIN+=",${arg#--sin=}" ;;
+    -h|--help)  sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *)          error "Opcion desconocida: $arg (mira: ./install.sh --help)" ;;
   esac
 done
@@ -82,10 +88,19 @@ agregar apps "Firefox y firmware" "Firefox y fwupd, para actualizar la BIOS y el
 agregar herramientas "Herramientas de desarrollo" "mise con claude, codex, gh, node y opencode (~/.config/mise/config.toml)." si
 agregar blackarch "Repositorio BlackArch" "Agrega el repositorio de BlackArch: miles de herramientas de seguridad, como en Parrot (pacman -S blackarch-<categoria>)." no
 RESPALDO_PERSONAL=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz{.gpg,} "$REPO"/../respaldo-cachyos-*.tar.gz{.gpg,} 2>/dev/null | sort | tail -n1 || true)
-[[ -n $RESPALDO_PERSONAL ]] && agregar respaldo "Restaurar Google Drive y VPN" "Usa tu respaldo ($(basename "$RESPALDO_PERSONAL")): monta Google Drive en ~/Drive con rclone y crea vpn-trabajo (openfortivpn con SAML)." si
+# Si ya se restauro antes (rclone y vpn-trabajo existen), viene desmarcado
+YA_RESTAURADO=si
+[[ -f $HOME/.config/rclone/rclone.conf && -x $HOME/.local/bin/vpn-trabajo ]] && YA_RESTAURADO=no
+[[ -n $RESPALDO_PERSONAL ]] && agregar respaldo "Restaurar Google Drive y VPN" "Usa tu respaldo ($(basename "$RESPALDO_PERSONAL")): monta Google Drive en ~/Drive con rclone y crea vpn-trabajo (openfortivpn con SAML)." $YA_RESTAURADO
 $UMBRAL && agregar bateria "Cuidar la bateria (hasta 80%)" "La bateria deja de cargar al 80%: dura mas anos si el portatil pasa enchufado. Para cargar al 100% una vez: bateria-completa" no
 
 quiere() { [[ ${MARCA[$1]:-no} == si ]]; }
+
+# --con / --sin cambian lo que viene marcado (antes del menu)
+IFS=, read -ra lista <<<"${CON#,}"
+for id in "${lista[@]}"; do [[ -n ${NOMBRE[$id]:-} ]] && MARCA[$id]=si || aviso "Extra no disponible: $id"; done
+IFS=, read -ra lista <<<"${SIN#,}"
+for id in "${lista[@]}"; do [[ -n ${NOMBRE[$id]:-} ]] && MARCA[$id]=no || aviso "Extra no disponible: $id"; done
 cambiar() { if quiere "$1"; then MARCA[$1]=no; else MARCA[$1]=si; fi; }
 
 leer_tecla() {  # deja en TECLA la tecla pulsada; las flechas llegan como Esc + [A / [B

@@ -89,7 +89,12 @@ barras laterales, notificaciones) y Parrot en ventanas y extras: Centro Parrot e
 
 ## Pasos
 
-1. `paquetes/shell.txt` + `paquetes/shell-aur.txt` desde los PKGBUILD de ii.
+1. ✅ `paquetes/shell.txt` (70 oficiales) + `paquetes/shell-aur.txt` (9 de AUR) desde los
+   PKGBUILD de ii (2026-10-27). Notas:
+   - `wlogout` ya está en los repositorios oficiales: de 104 dependencias, 95 son oficiales.
+   - Fuera: `microtex` (solo para fórmulas en el chat de IA, `services/LatexRenderer.qml`)
+     y el cursor Bibata (end4-pC no lo usa; se queda WhiteSur).
+   - ii trae `polkit-kde-agent` y Parrot usa `hyprpolkitagent`: en modo shell arrancar solo uno.
 2. `extras/shell.sh`: clonar ii y end4-pC fijados, venv con uv, grupos, ydotool,
    copiar `hypr/hyprland`, matugen, Kvantum, end4-pC.
 3. `hyprland.lua` con selector + `custom/*.lua` Parrot.
