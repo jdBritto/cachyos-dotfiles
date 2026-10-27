@@ -49,6 +49,23 @@ tocar nada: `install.sh --simular`.
 | Repositorio BlackArch | Herramientas de seguridad como en Parrot (`sudo pacman -S blackarch-<categoría>`). Viene desmarcado |
 | Cuidar la batería | Deja de cargar al 80 % (solo aparece si el portátil lo permite, como los ThinkPad). `bateria-completa` carga al 100 % una vez |
 
+### Respaldo personal (Google Drive y VPN)
+
+Si dejas tu `respaldo-cachyos-*.tar.gz` en la carpeta personal (`~`) o junto
+a esta carpeta antes de ejecutar `install.sh`, aparece el extra
+**Restaurar Google Drive y VPN**. También se puede hacer aparte:
+
+```bash
+~/cachyos-dotfiles/restaurar-respaldo.sh ~/respaldo-cachyos-2026-10-27.tar.gz
+```
+
+- Monta Google Drive en `~/Drive` con rclone (servicio de usuario `rclone-gdrive`).
+- Crea `vpn-trabajo`: conecta la VPN de Fortinet con `openfortivpn` e inicio de
+  sesión SAML en el navegador (también en `Super + A` → VPN del trabajo).
+  Con `--forticlient` instala además FortiClient VPN desde AUR.
+
+El respaldo **no** va en este repositorio: tiene tu sesión de Google Drive.
+
 ## Usar
 
 | Atajo | Qué hace |

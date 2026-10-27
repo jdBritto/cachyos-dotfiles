@@ -81,6 +81,8 @@ agregar() { IDS+=("$1"); NOMBRE[$1]=$2; DESC[$1]=$3; MARCA[$1]=$4; }
 agregar apps "Firefox y firmware" "Firefox y fwupd, para actualizar la BIOS y el firmware de Lenovo desde Linux (fwupdmgr update)." si
 agregar herramientas "Herramientas de desarrollo" "mise con claude, codex, gh, node y opencode (~/.config/mise/config.toml)." si
 agregar blackarch "Repositorio BlackArch" "Agrega el repositorio de BlackArch: miles de herramientas de seguridad, como en Parrot (pacman -S blackarch-<categoria>)." no
+RESPALDO_PERSONAL=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz "$REPO"/../respaldo-cachyos-*.tar.gz 2>/dev/null | sort | tail -n1 || true)
+[[ -n $RESPALDO_PERSONAL ]] && agregar respaldo "Restaurar Google Drive y VPN" "Usa tu respaldo ($(basename "$RESPALDO_PERSONAL")): monta Google Drive en ~/Drive con rclone y crea vpn-trabajo (openfortivpn con SAML)." si
 $UMBRAL && agregar bateria "Cuidar la bateria (hasta 80%)" "La bateria deja de cargar al 80%: dura mas anos si el portatil pasa enchufado. Para cargar al 100% una vez: bateria-completa" no
 
 quiere() { [[ ${MARCA[$1]:-no} == si ]]; }
@@ -326,6 +328,13 @@ EOF
   hacer sudo systemctl enable --now bateria-80.service || aviso "No se pudo activar el limite de carga."
 fi
 
+# ---------------------------------------------------------------- respaldo personal
+if quiere respaldo; then
+  verde "Restaurando tu respaldo personal"
+  args=("$RESPALDO_PERSONAL"); $PREGUNTAR || args+=(--si)
+  hacer "$REPO/restaurar-respaldo.sh" "${args[@]}" || aviso "No se pudo restaurar todo el respaldo; reintenta con: $REPO/restaurar-respaldo.sh"
+fi
+
 # ---------------------------------------------------------------- servicios
 verde "Activando servicios"
 hacer sudo systemctl enable --now NetworkManager.service || true
@@ -356,6 +365,7 @@ echo "  Super + K      ver todos los atajos"
 echo "  Super + Alt + T  cambiar tema      Super + Alt + P  modo rendimiento"
 quiere apps && echo "  Firmware de Lenovo:  fwupdmgr refresh && fwupdmgr update"
 quiere bateria && echo "  Bateria al 100% una vez:  bateria-completa"
+quiere respaldo && echo "  VPN del trabajo:  vpn-trabajo      Google Drive:  ~/Drive"
 echo
 echo "Tus cambios van en ~/.config/hypr/personal.lua (nunca se sobrescribe)."
 if ((${#AVISOS[@]})); then

@@ -32,6 +32,11 @@ opciones=(
   "󰐥  Apagar / reiniciar|$S/energia.sh"
 )
 
+if [[ -x $HOME/.local/bin/vpn-trabajo ]]; then
+  vpn="desconectada"; pgrep -x openfortivpn >/dev/null && vpn="conectada"
+  opciones=("${opciones[@]:0:10}" "󰒄  VPN del trabajo          $vpn|$S/terminal.sh --title VPN -e $HOME/.local/bin/vpn-trabajo" "${opciones[@]:10}")
+fi
+
 i=$(printf '%s\n' "${opciones[@]%%|*}" | menu "Centro Parrot" --width 46 --lines ${#opciones[@]} --index) || exit 0
 accion=${opciones[$i]#*|}
 sleep 0.1
