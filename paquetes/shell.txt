@@ -1,7 +1,8 @@
-# Escritorio Shell end4-pC: dependencias de illogical-impulse (repositorios oficiales)
+# Interfaz end4-pC: dependencias de illogical-impulse (repositorios oficiales)
 # Sacado de end-4/dots-hyprland 2f2a376, sdata/dist-arch/illogical-impulse-*/PKGBUILD.
 # No se repiten los que ya estan en hyprland.txt, apps.txt o herramientas.txt.
-# Fuera a proposito: microtex (formulas en el chat de IA) y el cursor Bibata.
+# Fuera a proposito: microtex (formulas en el chat de IA), el cursor Bibata y
+# polkit-kde-agent (end4-pC trae su propia ventana de contrasenas).
 
 # Quickshell: la 0.3.2 oficial es el mismo commit que fija ii (4f508be)
 quickshell
@@ -23,10 +24,11 @@ coreutils
 cmake
 wget
 ripgrep
-rsync
 go-yq
 
-# fonts-themes
+# fonts-themes (adw-gtk-theme y ttf-material-symbols-variable: en ii vienen de AUR como -git)
+adw-gtk-theme
+ttf-material-symbols-variable
 breeze
 eza
 fish
@@ -38,7 +40,6 @@ starship
 bluedevil
 gnome-keyring
 plasma-nm
-polkit-kde-agent
 dolphin
 systemsettings
 
@@ -67,6 +68,7 @@ wtype
 ydotool
 
 # widgets
+fuzzel
 glib2
 songrec
 translate-shell

@@ -1,2 +1,10 @@
-# Paquetes de AUR (se instalan con paru)
-wlogout
+# Paquetes de AUR (se instalan con paru): fuentes y temas de la interfaz end4-pC
+# Sacado de end-4/dots-hyprland 2f2a376.
+# adw-gtk-theme y ttf-material-symbols-variable ya estan en los oficiales (shell.txt).
+breeze-plus
+darkly-bin
+otf-space-grotesk
+qt6-avif-image-plugin
+ttf-readex-pro
+ttf-rubik-vf
+ttf-twemoji

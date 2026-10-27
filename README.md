@@ -1,11 +1,10 @@
 # cachyos-dotfiles
 
-**Hyprland Parrot** para **CachyOS**: Hyprland con el estilo de Parrot, temas que se cambian al instante, menús fáciles y
-un modo rendimiento. Pensado para un Lenovo ThinkPad (AMD), pero funciona en
-cualquier equipo.
-
-Las ideas vienen de los [dotfiles de gh0stzk](https://github.com/gh0stzk/dotfiles):
-paletas hechas a mano, menús para todo y efectos que se pueden apagar.
+**Hyprland + end4-pC** para **CachyOS**: la interfaz
+[end4-pC](https://github.com/pctrade/end4-pC) (fork de
+[illogical-impulse](https://github.com/end-4/dots-hyprland)), con colores que
+salen del fondo de pantalla, un instalador fácil, modo de energía y extras para
+el portátil. Pensado para un Lenovo ThinkPad (AMD), pero funciona en cualquier equipo.
 
 ## Instalar
 
@@ -21,24 +20,26 @@ git clone https://github.com/jdBritto/cachyos-dotfiles.git ~/cachyos-dotfiles
 ~/cachyos-dotfiles/install.sh
 ```
 
-3. Reinicia y entra en la sesión **Hyprland**.
+3. Reinicia y entra en la sesión **Hyprland** (no la de UWSM).
 
 El instalador muestra un menú de extras (flechas, Espacio para marcar, Enter
 para seguir). Sin preguntas: `install.sh --si`. Para ver lo que haría sin
-tocar nada: `install.sh --simular`.
+tocar nada: `install.sh --simular`. Elegir extras sin menú:
+`install.sh --con=bateria --sin=apps`.
 
 ### Qué hace el instalador
 
-- Actualiza el sistema e instala Hyprland y todo lo necesario desde los
-  repositorios oficiales (lista en `paquetes/`). `wlogout` (menú de apagado)
-  viene de AUR con `paru`; si falla, se usa un menú sencillo.
-- Aparta el `hyprland.conf` que trae CachyOS y copia la configuración nueva
-  (en Lua, el formato actual de Hyprland). Antes de sobrescribir guarda una
-  copia en `~/.config-respaldo-<fecha>`. Es seguro ejecutarlo más de una vez.
-- Instala los fondos de Parrot (GPL) en `~/.local/share/backgrounds/parrot`,
-  el cursor WhiteSur y pone las apps GTK en oscuro con iconos Papirus.
-- Activa la red, el bluetooth y los perfiles de energía, y deja Hyprland
-  propuesto en la pantalla de inicio.
+- Actualiza el sistema e instala Hyprland y lo que necesita la interfaz desde
+  los repositorios oficiales (`paquetes/hyprland.txt` y `paquetes/shell.txt`), y
+  las fuentes y temas de AUR con `paru` (`paquetes/aur.txt`).
+- Descarga illogical-impulse y end4-pC en **commits fijados** (`extras/shell.sh`)
+  y copia solo lo necesario. No usa el instalador de illogical-impulse, que
+  borraría tu `~/.config/hypr`.
+- Copia la configuración (en Lua). Antes de sobrescribir guarda una copia en
+  `~/.config-respaldo-<fecha>`. Es seguro ejecutarlo más de una vez.
+- Prepara el entorno de Python de la interfaz, los grupos `video,i2c,input`,
+  `ydotool`, la fuente Google Sans Flex y el cursor WhiteSur.
+- Activa la red, el bluetooth y los perfiles de energía.
 
 ### Extras
 
@@ -46,8 +47,8 @@ tocar nada: `install.sh --simular`.
 |---|---|
 | Firefox y firmware | Firefox y `fwupd`: actualiza la BIOS de Lenovo con `fwupdmgr refresh && fwupdmgr update` |
 | Herramientas de desarrollo | `mise` con claude, codex, gh, node y opencode |
-| Repositorio BlackArch | Herramientas de seguridad como en Parrot (`sudo pacman -S blackarch-<categoría>`). Viene desmarcado |
 | Cuidar la batería | Deja de cargar al 80 % (solo aparece si el portátil lo permite, como los ThinkPad). `bateria-completa` carga al 100 % una vez |
+| Restaurar Google Drive y VPN | Aparece si encuentra tu respaldo (abajo) |
 
 ### Respaldo personal (Google Drive y VPN)
 
@@ -63,44 +64,39 @@ El respaldo va cifrado con GPG: al restaurar se pide su contraseña.
 
 - Monta Google Drive en `~/Drive` con rclone (servicio de usuario `rclone-gdrive`).
 - Crea `vpn-trabajo`: conecta la VPN de Fortinet con `openfortivpn` e inicio de
-  sesión SAML en el navegador (también en `Super + A` → VPN del trabajo).
+  sesión SAML en el navegador (también en `Super + I` → VPN del trabajo).
   Con `--forticlient` instala además FortiClient VPN desde AUR.
 
 El respaldo **no** va en este repositorio: tiene tu sesión de Google Drive.
 
 ## Usar
 
+Los atajos son los de illogical-impulse; `Super + /` los muestra todos.
+
 | Atajo | Qué hace |
 |---|---|
-| `Super + K` | Ver todos los atajos |
-| `Super + A` | Centro Parrot: tema, fondo, modo, wifi, bluetooth, sonido, pantallas… |
-| `Super + Espacio` | Buscar aplicaciones |
-| `Super + Enter` | Terminal |
-| `Super + Tab` / `Alt + Tab` | Lista de ventanas / siguiente ventana |
-| `Super + W` | Cerrar ventana |
-| `Super + T` / `Super + F` | Flotante / pantalla completa |
-| `Super + D` | Ordenar ventanas: mosaico, columnas (como Niri) o principal |
-| `Super + M` / `Super + Shift + M` | Minimizar / ver minimizadas |
-| `Super + G` | Agrupar en pestañas |
+| `Super` (solo) | Buscar aplicaciones |
+| `Super + /` | Ver todos los atajos |
+| `Super + I` | **Centro**: modo de energía, distribución de ventanas, VPN, pantallas, batería |
+| `Super + Escape` | Ajustes de end4-pC (barra, colores, widgets, presets) |
+| `Super + A` / `Super + N` | Barra lateral izquierda (IA, traductor) / derecha (wifi, bluetooth, sonido, notificaciones) |
+| `Super + Tab` | Vista de escritorios y ventanas |
+| `Super + Enter` | Terminal (kitty) |
 | `Super + \|` | Terminal desplegable (tecla a la izquierda del 1) |
-| `Super + Alt + T` | Cambiar tema |
-| `Super + Ctrl + Espacio` | Cambiar fondo |
+| `Super + Q` | Cerrar ventana |
+| `Super + F` / `Super + D` | Pantalla completa / maximizar |
+| `Super + Alt + Espacio` | Flotante / mosaico |
 | `Super + Alt + P` | Modo: equilibrado / rendimiento / ahorro |
+| `Super + Alt + D` | Distribución: mosaico / columnas (como Niri) / principal |
+| `Super + Alt + G` | Agrupar en pestañas |
+| `Ctrl + Super + T` | Elegir fondo (los colores salen de él) |
 | `Super + V` | Portapapeles |
-| `Impr Pant` / `Super + Shift + S` | Captura de una zona / y editarla |
-| `Super + Ctrl + L` | Bloquear |
-| `Super + Escape` | Apagar / reiniciar |
+| `Super + Shift + S` | Captura de una zona |
+| `Super + L` | Bloquear |
+| `Ctrl + Alt + Supr` | Apagar / reiniciar |
 
-Con el ratón: `Super` + arrastrar mueve, `Super` + clic derecho cambia el
-tamaño, y también desde el borde. Touchpad: 3 dedos a los lados cambia de
-escritorio.
-
-- **7 temas**: Parrot, Lorikeet, Vaporwave, HackTheBox, Nefelibata, Mystic y
-  Claro. Cada uno cambia bordes, barra, menús, notificaciones, terminal,
-  bloqueo y fondo, y recuerda el fondo que le elijas.
-- **Modos**: *equilibrado* (todos los efectos), *rendimiento* (sin
-  desenfoque ni sombras, CPU al máximo) y *ahorro* (sin efectos, para la
-  batería).
+- **Modos**: *equilibrado* (los efectos que elijas en los ajustes), *rendimiento*
+  (sin desenfoque ni sombras, CPU al máximo) y *ahorro* (sin efectos, para la batería).
 
 ## Personalizar
 
@@ -109,16 +105,26 @@ Todo está en `~/.config/hypr/`:
 | Carpeta / archivo | Qué es |
 |---|---|
 | `personal.lua` | **Tus cambios.** Se carga al final y el instalador nunca lo sobrescribe |
-| `parrot/` | Las partes de la configuración (aspecto, atajos, reglas, inicio…) |
-| `temas/` | Los colores: copia uno, cámbiale los colores y aparece en el menú |
-| `scripts/` | Los menús y utilidades |
-| `waybar/` | La barra (estilos "islas" y "panel") |
+| `custom/` | Lo de este repositorio: teclado, touchpad, reglas, atajos extra, modo de energía |
+| `hyprland/` | Base de illogical-impulse. No la edites: se reemplaza al actualizar |
+| `scripts/` | Centro, modo de energía, distribución, pantallas |
 
-Comprueba la configuración sin reiniciar: `Hyprland --verify-config`.
-Pruébala en una ventana desde otro escritorio:
-`PARROT_PRUEBA=1 Hyprland -c ~/.config/hypr/hyprland.lua`.
+Comprueba la configuración sin reiniciar:
+`Hyprland --verify-config -c ~/.config/hypr/hyprland.lua`.
+
+### Actualizar la interfaz
+
+Los commits de illogical-impulse y end4-pC están fijados al principio de
+`extras/shell.sh`. Para subir de versión, cambia el commit, ejecuta
+`extras/shell.sh` y prueba antes de subir el cambio.
 
 ## Guardar tus cambios
 
 `./actualizar.sh "mensaje"` copia tu configuración actual al repositorio y la
 sube a GitHub.
+
+## Créditos
+
+- [illogical-impulse](https://github.com/end-4/dots-hyprland) (GPL-3.0) y
+  [end4-pC](https://github.com/pctrade/end4-pC) (GPL-3.0): se descargan al instalar, no se copian aquí.
+- Ideas de los [dotfiles de gh0stzk](https://github.com/gh0stzk/dotfiles): menús para todo y efectos que se pueden apagar.

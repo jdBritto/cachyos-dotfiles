@@ -1,43 +1,36 @@
 #!/bin/bash
-# Centro Parrot: todos los ajustes rapidos en un solo menu (Super + A).
+# Centro (Super + I): lo que la interfaz end4-pC no trae, en un solo menu.
+# Wifi, bluetooth, sonido, notificaciones y fondo estan en las barras laterales
+# de end4-pC (Super + A y Super + N); sus ajustes, en Super + Escape.
 source "$(dirname "$0")/comun.sh"
 S=$SCRIPTS
 
-cargar_tema "$(tema_actual)"
-modo=$(cat "$GEN/modo" 2>/dev/null || echo equilibrado)
-luz="apagada"; pgrep -x hyprsunset >/dev/null && luz="encendida"
-nm="no";   [[ $(timeout 1 dunstctl is-paused 2>/dev/null) == true ]] && nm="si"
-barra=$(cat "$GEN/barra" 2>/dev/null || echo islas)
-dist=$(cat "$GEN/distribucion" 2>/dev/null || echo dwindle)
+modo=$("$S/modo.sh" estado)
+dist=$(cat "$ESTADO/distribucion" 2>/dev/null || echo dwindle)
 case $dist in dwindle) dist=mosaico ;; scrolling) dist=columnas ;; master) dist=principal ;; esac
 
 opciones=(
-  "󰏘  Tema                     $nombre|$S/tema.sh menu"
-  "󰸉  Fondo de pantalla|$S/fondo.sh menu"
-  "  Fondo al azar|$S/fondo.sh aleatorio"
-  "󰓅  Modo de rendimiento      $modo|$S/modo.sh ciclar"
-  "󰖔  Luz nocturna             $luz|$S/luz.sh alternar"
-  "󰂛  No molestar              $nm|$S/notificaciones.sh no-molestar"
+  "󰓅  Modo de energia          $modo|$S/modo.sh ciclar"
   "󰕰  Distribucion ventanas    $dist|$S/distribucion.sh"
-  "󰖲  Estilo de la barra       $barra|$S/barra.sh estilo"
-  "󰖩  Wifi|$S/wifi.sh"
-  "󰂯  Bluetooth|blueman-manager"
-  "󰕾  Sonido|pavucontrol"
   "󰍹  Pantallas|$S/monitores.sh"
-  "󰉼  Apariencia de apps (GTK)|nwg-look"
-  "󰄀  Captura de pantalla|$S/captura.sh menu"
-  "󰅌  Portapapeles|$S/portapapeles.sh"
-  "󰌌  Ver atajos|$S/atajos.sh"
-  "󰑓  Recargar escritorio|hyprctl reload && $S/barra.sh reiniciar"
-  "󰐥  Apagar / reiniciar|$S/energia.sh"
+  "󰉼  Apariencia de apps GTK|nwg-look"
+  "  Ajustes de end4-pC|hyprctl dispatch 'hl.dsp.global(\"quickshell:settingsToggle\")'"
 )
 
 if [[ -x $HOME/.local/bin/vpn-trabajo ]]; then
   vpn="desconectada"; pgrep -x openfortivpn >/dev/null && vpn="conectada"
-  opciones=("${opciones[@]:0:10}" "󰒄  VPN del trabajo          $vpn|$S/terminal.sh --title VPN -e $HOME/.local/bin/vpn-trabajo" "${opciones[@]:10}")
+  opciones+=("󰒄  VPN del trabajo          $vpn|source $S/comun.sh; en_terminal 'VPN del trabajo' $HOME/.local/bin/vpn-trabajo")
 fi
 
-i=$(printf '%s\n' "${opciones[@]%%|*}" | menu "Centro Parrot" --width 46 --lines ${#opciones[@]} --index) || exit 0
+BAT=$(ls -d /sys/class/power_supply/BAT*/ 2>/dev/null | head -n1)
+if [[ -n $BAT && -r ${BAT}charge_control_end_threshold ]]; then
+  limite=$(cat "${BAT}charge_control_end_threshold")
+  if command -v bateria-completa >/dev/null && ((limite < 100)); then
+    opciones+=("󰂄  Bateria: cargar al 100% una vez (limite $limite%)|source $S/comun.sh; en_terminal 'Bateria' bateria-completa")
+  fi
+fi
+
+i=$(printf '%s\n' "${opciones[@]%%|*}" | menu "Centro" --width 50 --lines ${#opciones[@]} --index) || exit 0
 accion=${opciones[$i]#*|}
 sleep 0.1
 exec bash -c "$accion"

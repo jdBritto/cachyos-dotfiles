@@ -1,13 +1,13 @@
 #!/bin/bash
-# Instala Hyprland Parrot en CachyOS.
+# Instala Hyprland con la interfaz end4-pC en CachyOS.
 # Al empezar muestra un menu de extras (flechas y Espacio).
 #
 # Uso:  ./install.sh            (pregunta)
 #       ./install.sh --si       (sin preguntas: lo recomendado)
 #       ./install.sh --simular  (muestra lo que haria, sin instalar ni copiar nada)
-#       ./install.sh --con=bateria,blackarch --sin=apps
+#       ./install.sh --con=bateria --sin=apps
 #                               (marca o desmarca extras sin el menu: apps, herramientas,
-#                                blackarch, respaldo, bateria)
+#                                respaldo, bateria)
 #
 # Es seguro ejecutarlo mas de una vez. Antes de sobrescribir guarda una copia
 # de tus archivos en ~/.config-respaldo-<fecha>.
@@ -16,6 +16,7 @@ set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RESPALDO="$HOME/.config-respaldo-$(date +%Y%m%d-%H%M%S)"
+export RESPALDO   # extras/shell.sh guarda en la misma carpeta
 
 verde() { printf '\n\033[1;32m==> %s\033[0m\n' "$*"; }
 AVISOS=()
@@ -62,31 +63,30 @@ echo "Equipo: $(cat /sys/class/dmi/id/sys_vendor 2>/dev/null) $(cat /sys/class/d
 
 # ---------------------------------------------------------------- logo
 logo() {
-  local colores=(46 47 48 49 50 51) i=0 linea
+  local colores=(43 44 45 51 50 49) i=0 linea
   while IFS= read -r linea; do
     printf '\033[1;38;5;%sm%s\033[0m\n' "${colores[i % ${#colores[@]}]}" "$linea"
     i=$((i + 1))
   done <<'LOGO'
 
-  ██╗  ██╗██╗   ██╗██████╗ ██████╗     ██████╗  █████╗ ██████╗ ██████╗  ██████╗ ████████╗
-  ██║  ██║╚██╗ ██╔╝██╔══██╗██╔══██╗    ██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝
-  ███████║ ╚████╔╝ ██████╔╝██████╔╝    ██████╔╝███████║██████╔╝██████╔╝██║   ██║   ██║
-  ██╔══██║  ╚██╔╝  ██╔═══╝ ██╔══██╗    ██╔═══╝ ██╔══██║██╔══██╗██╔══██╗██║   ██║   ██║
-  ██║  ██║   ██║   ██║     ██║  ██║    ██║     ██║  ██║██║  ██║██║  ██║╚██████╔╝   ██║
-  ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝    ╚═╝
+   ██████╗ █████╗  ██████╗██╗  ██╗██╗   ██╗ ██████╗ ███████╗
+  ██╔════╝██╔══██╗██╔════╝██║  ██║╚██╗ ██╔╝██╔═══██╗██╔════╝
+  ██║     ███████║██║     ███████║ ╚████╔╝ ██║   ██║███████╗
+  ██║     ██╔══██║██║     ██╔══██║  ╚██╔╝  ██║   ██║╚════██║
+  ╚██████╗██║  ██║╚██████╗██║  ██║   ██║   ╚██████╔╝███████║
+   ╚═════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 LOGO
-  printf '\033[2m  Hyprland Parrot para %s\033[0m\n\n' "${PRETTY_NAME:-CachyOS}"
+  printf '\033[2m  Hyprland + end4-pC para %s\033[0m\n\n' "${PRETTY_NAME:-CachyOS}"
 }
 
 # ---------------------------------------------------------------- que instalar
-# Hyprland Parrot siempre se instala; aqui se eligen los extras.
+# Hyprland y la interfaz end4-pC siempre se instalan; aqui se eligen los extras.
 declare -a IDS=()
 declare -A NOMBRE DESC MARCA
 agregar() { IDS+=("$1"); NOMBRE[$1]=$2; DESC[$1]=$3; MARCA[$1]=$4; }
 
 agregar apps "Firefox y firmware" "Firefox y fwupd, para actualizar la BIOS y el firmware de Lenovo desde Linux (fwupdmgr update)." si
 agregar herramientas "Herramientas de desarrollo" "mise con claude, codex, gh, node y opencode (~/.config/mise/config.toml)." si
-agregar blackarch "Repositorio BlackArch" "Agrega el repositorio de BlackArch: miles de herramientas de seguridad, como en Parrot (pacman -S blackarch-<categoria>)." no
 RESPALDO_PERSONAL=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz{.gpg,} "$REPO"/../respaldo-cachyos-*.tar.gz{.gpg,} 2>/dev/null | sort | tail -n1 || true)
 # Si ya se restauro antes (rclone y vpn-trabajo existen), viene desmarcado
 YA_RESTAURADO=si
@@ -120,7 +120,7 @@ menu() {
   while true; do
     printf '\033[H\033[2J'
     logo
-    printf '  \033[1mSE INSTALA\033[0m\n    \033[1;32m[x]\033[0m Hyprland Parrot (temas, barra, menus, modo rendimiento)\n'
+    printf '  \033[1mSE INSTALA\033[0m\n    \033[1;32m[x]\033[0m Hyprland con la interfaz end4-pC (barra, menus, colores del fondo, modo de energia)\n'
     printf '\n  \033[1mEXTRAS\033[0m\n'
     for i in "${!IDS[@]}"; do
       id=${IDS[i]}
@@ -153,7 +153,7 @@ if $PREGUNTAR; then menu; else logo; fi
 
 resumen() { local id; for id in "${IDS[@]}"; do quiere "$id" && printf '%s, ' "${NOMBRE[$id]}"; done; return 0; }
 LISTA=$(resumen)
-echo "Se va a instalar: Hyprland Parrot${LISTA:+, ${LISTA%, }}"
+echo "Se va a instalar: Hyprland + end4-pC${LISTA:+, ${LISTA%, }}"
 if $PREGUNTAR; then
   read -rp "Continuar? [S/n] " r
   [[ $r =~ ^[nN]$ ]] && { echo "Cancelado. No se cambio nada."; exit 0; }
@@ -161,10 +161,10 @@ fi
 $SIMULAR || sudo -v || error "Hace falta tu contrasena de administrador."
 
 # ---------------------------------------------------------------- registro
-LOG="$HOME/.cache/hypr-parrot/install-$(date +%Y%m%d-%H%M%S).log"
+LOG="$HOME/.cache/hypr-cachyos/install-$(date +%Y%m%d-%H%M%S).log"
 if ! $SIMULAR; then
   mkdir -p "$(dirname "$LOG")"
-  ln -sfn "$LOG" "$HOME/.cache/hypr-parrot/ultimo.log"
+  ln -sfn "$LOG" "$HOME/.cache/hypr-cachyos/ultimo.log"
   exec > >(tee -a "$LOG") 2>&1
   echo "Registro de la instalacion: $LOG"
 fi
@@ -180,6 +180,7 @@ leer_lista() { grep -vE '^\s*(#|$)' "$REPO/paquetes/$1.txt"; }
 # ---------------------------------------------------------------- paquetes
 verde "Actualizando el sistema e instalando paquetes"
 mapfile -t PAQUETES < <(leer_lista hyprland)
+mapfile -t -O "${#PAQUETES[@]}" PAQUETES < <(leer_lista shell)
 quiere apps && mapfile -t -O "${#PAQUETES[@]}" PAQUETES < <(leer_lista apps)
 quiere herramientas && mapfile -t -O "${#PAQUETES[@]}" PAQUETES < <(leer_lista herramientas)
 
@@ -192,7 +193,7 @@ fi
 pac -Syu --needed "${PAQUETES[@]}" || error "No se pudieron instalar los paquetes."
 
 # AUR: paru viene en los repositorios de CachyOS; en Arch se compila
-verde "Paquetes de AUR"
+verde "Paquetes de AUR (fuentes y temas de la interfaz)"
 if ! command -v paru >/dev/null; then
   if $SIMULAR || pacman -Si paru &>/dev/null; then
     pac -S --needed paru || aviso "No se pudo instalar paru."
@@ -207,30 +208,7 @@ fi
 if command -v paru >/dev/null || $SIMULAR; then
   mapfile -t AUR < <(leer_lista aur)
   hacer paru -S --needed --noconfirm "${AUR[@]}" ||
-    aviso "No se pudo instalar wlogout; el menu de apagado usara un menu sencillo."
-fi
-
-# ---------------------------------------------------------------- BlackArch
-if quiere blackarch; then
-  verde "Agregando el repositorio BlackArch"
-  if grep -q '^\[blackarch\]' /etc/pacman.conf 2>/dev/null; then
-    echo "BlackArch ya estaba agregado."
-  elif $SIMULAR; then
-    hacer "curl -O https://blackarch.org/strap.sh && verificar SHA1 && sudo ./strap.sh"
-  else
-    TMP=$(mktemp -d)
-    # La suma SHA1 oficial esta publicada en su pagina de descargas
-    SUMA=$(curl -fsSL https://www.blackarch.org/downloads.html | grep -oE 'echo [0-9a-f]{40}  strap.sh' | head -n1 | awk '{print $2}')
-    if [[ -n $SUMA ]] && curl -fsSLo "$TMP/strap.sh" https://blackarch.org/strap.sh &&
-       echo "$SUMA  $TMP/strap.sh" | sha1sum -c --quiet; then
-      chmod +x "$TMP/strap.sh"
-      sudo "$TMP/strap.sh" || aviso "strap.sh de BlackArch fallo."
-      echo "Instala herramientas con: sudo pacman -S blackarch-<categoria>  (lista: pacman -Sg | grep blackarch)"
-    else
-      aviso "No se pudo verificar strap.sh de BlackArch; no se agrego el repositorio."
-    fi
-    rm -rf "$TMP"
-  fi
+    aviso "Faltan fuentes o temas de AUR; reintenta: paru -S \$(grep -v '^#' $REPO/paquetes/aur.txt)"
 fi
 
 # ---------------------------------------------------------------- archivos
@@ -251,7 +229,7 @@ copiar() { # copiar RUTA...: copia esas rutas de home/ a $HOME, respaldando lo q
     done < <(find "$REPO/home/$ruta" -type f -print0)
   done
 }
-apartar() { # apartar RUTA: mueve un archivo de $HOME a la copia de respaldo
+apartar() { # apartar RUTA: mueve un archivo o carpeta de $HOME a la copia de respaldo
   [[ -e $HOME/$1 ]] || return 0
   if $SIMULAR; then printf '\033[2m  [simular] apartar %s\033[0m\n' "$1"; return; fi
   mkdir -p "$(dirname "$RESPALDO/$1")"
@@ -259,43 +237,41 @@ apartar() { # apartar RUTA: mueve un archivo de $HOME a la copia de respaldo
 }
 
 verde "Copiando la configuracion"
-# CachyOS trae su propio hyprland.conf: se aparta para que se use el nuestro (Lua)
+# Lo que trae CachyOS (hyprland.conf o config/) y lo de versiones anteriores de este
+# repositorio (Hyprland Parrot: temas, waybar, fondos...) se aparta a la copia de respaldo
 apartar .config/hypr/hyprland.conf
-for viejo in hyprlock.conf hypridle.conf hyprpaper.conf; do
-  if [[ -f $HOME/.config/hypr/$viejo ]] && ! grep -q 'generado\|Inactividad' "$HOME/.config/hypr/$viejo"; then
-    apartar ".config/hypr/$viejo"
-  fi
+apartar .config/hypr/config
+for viejo in parrot temas plantillas waybar iconos generado; do apartar ".config/hypr/$viejo"; done
+for s in atajos barra captura energia escritorios fondo lanzador luz navegador notificaciones \
+         osd portapapeles tema temperatura terminal ventanas wifi; do
+  apartar ".config/hypr/scripts/$s.sh"
 done
-copiar .config/hypr/hyprland.lua .config/hypr/parrot .config/hypr/temas .config/hypr/plantillas \
-  .config/hypr/scripts .config/hypr/waybar .config/hypr/iconos .config/hypr/hyprlock.conf \
-  .config/hypr/hypridle.conf .config/systemd/user/hyprpolkitagent.service.d \
-  .local/share/backgrounds/parrot .local/share/icons/WhiteSur-cursors
-[[ -f $HOME/.config/ghostty/config ]] || copiar .config/ghostty
+apartar .local/share/backgrounds/parrot
+apartar .config/systemd/user/hyprpolkitagent.service.d   # end4-pC trae su agente polkit
+copiar .config/hypr/hyprland.lua .config/hypr/custom .config/hypr/scripts .config/hypr/hypridle.conf \
+  .local/share/icons/WhiteSur-cursors
 quiere herramientas && copiar .config/mise
 if ! $SIMULAR; then
   # personal.lua es tuyo: solo se copia la primera vez
   [[ -f $HOME/.config/hypr/personal.lua ]] || cp "$REPO/home/.config/hypr/personal.lua" "$HOME/.config/hypr/"
   chmod +x "$HOME"/.config/hypr/scripts/*.sh
   xdg-user-dirs-update 2>/dev/null || true
-  "$HOME/.config/hypr/scripts/tema.sh" generar >/dev/null || aviso "No se pudieron crear los colores del tema."
 fi
+
+# ---------------------------------------------------------------- interfaz end4-pC
+verde "Interfaz end4-pC"
+args=(--sin-paquetes); $SIMULAR && args+=(--simular)
+"$REPO/extras/shell.sh" "${args[@]}" || error "No se pudo instalar la interfaz end4-pC."
 [[ -d $RESPALDO ]] && echo "Copia de tus archivos anteriores: $RESPALDO"
 
 # ---------------------------------------------------------------- apariencia de las apps
 verde "Apariencia de las apps (GTK)"
 gs() { hacer gsettings set org.gnome.desktop.interface "$@" 2>/dev/null || true; }
-gs gtk-theme Adwaita-dark
-gs color-scheme prefer-dark
+gs gtk-theme adw-gtk3-dark        # end4-pC le pone los colores del fondo (matugen)
 gs icon-theme Papirus-Dark
 gs cursor-theme WhiteSur-cursors
 gs cursor-size 24
-gs font-name "Inter 10"
 gs monospace-font-name "JetBrainsMono Nerd Font 10"
-if ! $SIMULAR && [[ ! -f $HOME/.config/gtk-3.0/settings.ini ]]; then
-  mkdir -p "$HOME/.config/gtk-3.0"
-  printf '[Settings]\ngtk-theme-name=Adwaita-dark\ngtk-icon-theme-name=Papirus-Dark\ngtk-cursor-theme-name=WhiteSur-cursors\ngtk-cursor-theme-size=24\ngtk-font-name=Inter 10\ngtk-application-prefer-dark-theme=1\n' \
-    > "$HOME/.config/gtk-3.0/settings.ini"
-fi
 
 # ---------------------------------------------------------------- herramientas (mise)
 if quiere herramientas; then
@@ -361,7 +337,7 @@ hacer systemctl --user daemon-reload 2>/dev/null || true
 if ! systemctl is-enabled display-manager.service &>/dev/null; then
   pac -S --needed sddm && hacer sudo systemctl enable sddm.service || aviso "No se pudo activar SDDM."
 fi
-if [[ $(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null) == *sddm* ]] || $SIMULAR; then
+if [[ $(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null) == *sddm* ]]; then
   hacer sudo mkdir -p /var/lib/sddm
   if ! $SIMULAR; then
     printf '[Last]\nSession=/usr/share/wayland-sessions/hyprland.desktop\nUser=%s\n' "$USER" |
@@ -373,11 +349,13 @@ fi
 
 # ---------------------------------------------------------------- listo
 verde "Listo"
-echo "Reinicia y entra en la sesion \"Hyprland\" de la pantalla de inicio."
+echo "Reinicia y entra en la sesion \"Hyprland\" (no la de UWSM) de la pantalla de inicio."
 echo
-echo "  Super + A      Centro Parrot (tema, fondo, wifi, modo rendimiento...)"
-echo "  Super + K      ver todos los atajos"
-echo "  Super + Alt + T  cambiar tema      Super + Alt + P  modo rendimiento"
+echo "  Super (solo)     buscar aplicaciones"
+echo "  Super + /        ver todos los atajos"
+echo "  Super + I        Centro: modo de energia, ventanas, VPN, pantallas"
+echo "  Super + Escape   ajustes de end4-pC (colores, barra, fondo...)"
+echo "  Ctrl + Super + T elegir fondo (los colores salen de el)"
 quiere apps && echo "  Firmware de Lenovo:  fwupdmgr refresh && fwupdmgr update"
 quiere bateria && echo "  Bateria al 100% una vez:  bateria-completa"
 quiere respaldo && echo "  VPN del trabajo:  vpn-trabajo      Google Drive:  ~/Drive"
