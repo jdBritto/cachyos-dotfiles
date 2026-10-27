@@ -1,0 +1,8 @@
+/* Estilo "panel": una sola barra con una linea de color abajo */
+@import url("../generado/waybar-colores.css");
+@import url("base.css");
+
+window#waybar {
+    background: alpha(@bg, 0.88);
+    border-bottom: 2px solid alpha(@acento, 0.55);
+}

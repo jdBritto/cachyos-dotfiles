@@ -1,0 +1,2 @@
+# Paquetes de AUR (se instalan con paru)
+wlogout

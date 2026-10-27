@@ -1,0 +1,10 @@
+// Estilo "panel": una barra completa pegada al borde.
+{
+  "include": ["~/.config/hypr/waybar/modulos.jsonc", "~/.config/hypr/generado/waybar-reloj.jsonc"],
+  "layer": "top",
+  "position": "top",
+  "height": 32,
+  "spacing": 0,
+  "exclusive": true,
+  "reload_style_on_change": true
+}

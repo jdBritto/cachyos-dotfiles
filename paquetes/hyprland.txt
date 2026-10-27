@@ -1,0 +1,49 @@
+# Hyprland Parrot: escritorio, barra, menus y utilidades (repositorios oficiales)
+hyprland
+hyprland-guiutils
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+hyprlock
+hypridle
+hyprpaper
+hyprpicker
+hyprsunset
+hyprpolkitagent
+qt6-wayland
+waybar
+fuzzel
+dunst
+libnotify
+# Capturas, portapapeles
+grim
+slurp
+swappy
+wl-clipboard
+cliphist
+# Sonido, brillo, redes, bluetooth, energia
+playerctl
+pavucontrol
+brightnessctl
+networkmanager
+nm-connection-editor
+blueman
+power-profiles-daemon
+# Ajustes graficos
+nwg-look
+nwg-displays
+# Utilidades de los scripts
+jq
+socat
+imagemagick
+librsvg
+gtk3
+xdg-user-dirs
+btop
+nautilus
+# Terminales y fuentes
+ghostty
+kitty
+ttf-jetbrains-mono-nerd
+inter-font
+noto-fonts-emoji
+papirus-icon-theme

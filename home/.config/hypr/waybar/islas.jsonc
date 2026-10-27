@@ -1,0 +1,13 @@
+// Estilo "islas": bloques flotantes separados del borde.
+{
+  "include": ["~/.config/hypr/waybar/modulos.jsonc", "~/.config/hypr/generado/waybar-reloj.jsonc"],
+  "layer": "top",
+  "position": "top",
+  "height": 36,
+  "margin-top": 8,
+  "margin-left": 10,
+  "margin-right": 10,
+  "spacing": 0,
+  "exclusive": true,
+  "reload_style_on_change": true
+}

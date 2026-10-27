@@ -1,0 +1,4 @@
+# mise instala despues claude, codex, gh, node y opencode (~/.config/mise/config.toml)
+mise
+git
+curl

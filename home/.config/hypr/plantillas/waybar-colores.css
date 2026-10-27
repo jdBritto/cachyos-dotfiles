@@ -1,0 +1,11 @@
+/* Generado por tema.sh a partir de temas/{{id}}.tema: no editar */
+@define-color bg #{{bg}};
+@define-color bg_alt #{{bg_alt}};
+@define-color superficie #{{superficie}};
+@define-color borde #{{borde}};
+@define-color fg #{{fg}};
+@define-color fg_dim #{{fg_dim}};
+@define-color acento #{{acento}};
+@define-color acento2 #{{acento2}};
+@define-color urgente #{{urgente}};
+@define-color aviso #{{aviso}};
