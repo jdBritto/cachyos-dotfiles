@@ -1,2 +1,4 @@
 firefox
 fwupd
+flatpak
+bazaar

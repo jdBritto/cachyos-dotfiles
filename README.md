@@ -45,7 +45,7 @@ tocar nada: `install.sh --simular`. Elegir extras sin menú:
 
 | Extra | Qué hace |
 |---|---|
-| Firefox y firmware | Firefox y `fwupd`: actualiza la BIOS de Lenovo con `fwupdmgr refresh && fwupdmgr update` |
+| Firefox, firmware y tienda | Firefox; `fwupd` (actualiza la BIOS de Lenovo con `fwupdmgr refresh && fwupdmgr update`); tienda **Bazaar** con Flatpak y Flathub |
 | Herramientas de desarrollo | `mise` con claude, codex, gh, node y opencode |
 | Cuidar la batería | Deja de cargar al 80 % (solo aparece si el portátil lo permite, como los ThinkPad). `bateria-completa` carga al 100 % una vez |
 | Restaurar Google Drive y VPN | Aparece si encuentra tu respaldo (abajo) |

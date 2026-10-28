@@ -85,7 +85,7 @@ declare -a IDS=()
 declare -A NOMBRE DESC MARCA
 agregar() { IDS+=("$1"); NOMBRE[$1]=$2; DESC[$1]=$3; MARCA[$1]=$4; }
 
-agregar apps "Firefox y firmware" "Firefox y fwupd, para actualizar la BIOS y el firmware de Lenovo desde Linux (fwupdmgr update)." si
+agregar apps "Firefox, firmware y tienda" "Firefox, fwupd (BIOS y firmware de Lenovo: fwupdmgr update) y la tienda Bazaar con Flatpak y Flathub." si
 agregar herramientas "Herramientas de desarrollo" "mise con claude, codex, gh, node y opencode (~/.config/mise/config.toml)." si
 RESPALDO_PERSONAL=$(ls -1 "$HOME"/respaldo-cachyos-*.tar.gz{.gpg,} "$REPO"/../respaldo-cachyos-*.tar.gz{.gpg,} 2>/dev/null | sort | tail -n1 || true)
 # Si ya se restauro antes (rclone y vpn-trabajo existen), viene desmarcado
@@ -329,6 +329,8 @@ fi
 verde "Activando servicios"
 hacer sudo systemctl enable --now NetworkManager.service || true
 hacer sudo systemctl enable --now bluetooth.service 2>/dev/null || true
+# Flathub, para la tienda Bazaar (extra "apps")
+quiere apps && { hacer sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || aviso "No se pudo agregar Flathub."; }
 pacman -Q power-profiles-daemon &>/dev/null && { hacer sudo systemctl enable --now power-profiles-daemon.service || true; }
 hacer systemctl --user daemon-reload 2>/dev/null || true
 
@@ -356,6 +358,7 @@ echo "  Super + I        Centro: modo de energia, ventanas, VPN, pantallas"
 echo "  Super + Escape   ajustes de end4-pC (colores, barra, fondo...)"
 echo "  Ctrl + Super + T elegir fondo (los colores salen de el)"
 quiere apps && echo "  Firmware de Lenovo:  fwupdmgr refresh && fwupdmgr update"
+quiere apps && echo "  Tienda de apps (Flatpak):  Bazaar, desde el lanzador (Super)"
 quiere bateria && echo "  Bateria al 100% una vez:  bateria-completa"
 quiere respaldo && echo "  VPN del trabajo:  vpn-trabajo      Google Drive:  ~/Drive"
 echo
