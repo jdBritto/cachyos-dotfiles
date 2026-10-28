@@ -71,12 +71,12 @@ El respaldo **no** va en este repositorio: tiene tu sesión de Google Drive.
 
 ## Usar
 
-Los atajos son los de illogical-impulse; `Super + /` los muestra todos.
+Los atajos son los de illogical-impulse, adaptados al teclado latinoamericano; `Super + F1` los muestra todos.
 
 | Atajo | Qué hace |
 |---|---|
 | `Super` (solo) | Buscar aplicaciones |
-| `Super + /` | Ver todos los atajos |
+| `Super + F1` | Ver todos los atajos |
 | `Super + I` | **Centro**: modo de energía, distribución de ventanas, VPN, pantallas, batería |
 | `Super + Escape` | Ajustes de end4-pC (barra, colores, widgets, presets) |
 | `Super + A` / `Super + N` | Barra lateral izquierda (IA, traductor) / derecha (wifi, bluetooth, sonido, notificaciones) |
@@ -90,10 +90,15 @@ Los atajos son los de illogical-impulse; `Super + /` los muestra todos.
 | `Super + Alt + D` | Distribución: mosaico / columnas (como Niri) / principal |
 | `Super + Alt + G` | Agrupar en pestañas |
 | `Ctrl + Super + T` | Elegir fondo (los colores salen de él) |
+| `Ctrl + Super + Shift + D` | Tema claro / oscuro |
+| `Super + -` / `Super + +` | Zoom de pantalla |
 | `Super + V` | Portapapeles |
 | `Super + Shift + S` | Captura de una zona |
 | `Super + L` | Bloquear |
 | `Ctrl + Alt + Supr` | Apagar / reiniciar |
+
+En latam, las teclas de EE.UU. que ii usa con Super (`/ = [ ] ;`) no se pueden pulsar sin Shift,
+así que `custom/keybinds.lua` las repite con `F1`, `+`, `{ }` y `ñ`.
 
 - **Modos**: *equilibrado* (los efectos que elijas en los ajustes), *rendimiento*
   (sin desenfoque ni sombras, CPU al máximo) y *ahorro* (sin efectos, para la batería).

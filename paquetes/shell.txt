@@ -12,6 +12,7 @@ cava
 pavucontrol-qt
 wireplumber
 pipewire-pulse
+rtkit
 libdbusmenu-gtk3
 
 # backlight

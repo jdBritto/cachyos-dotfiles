@@ -38,6 +38,11 @@ Responder siempre en **español**, con mensajes cortos y sencillos.
 - En Lua: `hyprctl dispatch 'hl.dsp...'`; `hyprctl keyword` ya no existe, usar `hyprctl eval`.
   `hl.unbind("SUPER + I")` existe (para cambiar atajos de ii sin editar sus archivos).
 - Las teclas `code:NN` no funcionan en Lua: usar nombres (bar, grave, masculine).
+- `binds.workspace_back_and_forth` debe quedar en false: en 0.56 hace que `Super + número` vuelva
+  al escritorio anterior al instante. Probar atajos con `ydotool key -d 60 125:1 4:1 4:0 125:0` (wtype no dispara atajos).
+- Teclado latam: Hyprland compara la tecla sin Shift; `/ = [ ] ; \` de ii no se pueden pulsar.
+  `custom/keybinds.lua` las repite (F1 atajos, plus, braceleft/braceright, ntilde). end4-pC quitó
+  los globales `cheatsheetToggle`, `toggleLightDark`, `panelFamilyCycle` (ver `hyprctl globalshortcuts`).
 - sudo con ventana: `SUDO_ASKPASS` con `pinentry-qt` y un `sudo` que llama a `sudo -A`.
   GPG usa `pinentry-qt` (`~/.gnupg/gpg-agent.conf`).
 

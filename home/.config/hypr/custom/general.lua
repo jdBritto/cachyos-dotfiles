@@ -25,8 +25,9 @@ hl.config({
         touchpad = { tap_to_click = true },
     },
     binds = {
-        -- Pulsar otra vez el numero del escritorio actual vuelve al anterior
-        workspace_back_and_forth = true,
+        -- Desactivado: en Hyprland 0.56 los atajos Super + numero de ii (funciones Lua)
+        -- disparaban la "vuelta" y regresaban al escritorio anterior al instante.
+        workspace_back_and_forth = false,
         allow_workspace_cycles   = true,
     },
     misc = {
