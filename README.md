@@ -81,8 +81,9 @@ Los atajos son los de illogical-impulse, adaptados al teclado latinoamericano; `
 | `Super + Escape` | Ajustes de end4-pC (barra, colores, widgets, presets) |
 | `Super + A` / `Super + N` | Barra lateral izquierda (IA, traductor) / derecha (wifi, bluetooth, sonido, notificaciones) |
 | `Super + Tab` | Vista de escritorios y ventanas |
-| `Super + Enter` | Terminal (kitty) |
-| `Super + \|` | Terminal desplegable (tecla a la izquierda del 1) |
+| `Super + Enter` | Terminal kitty con **zsh** (Oh My Zsh, p10k, alias de hacking; `atajos` los muestra) |
+| `Super + \|` | Terminal desplegable con **fish** (tecla a la izquierda del 1) |
+| `Ctrl + Shift + Alt + F` / `Z` | En kitty: pestaña nueva con fish / zsh |
 | `Super + Q` | Cerrar ventana |
 | `Super + F` / `Super + D` | Pantalla completa / maximizar |
 | `Super + Alt + Espacio` | Flotante / mosaico |

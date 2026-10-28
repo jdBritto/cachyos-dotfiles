@@ -120,6 +120,11 @@ copiar_archivo "$II/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
 for app in matugen Kvantum kde-material-you-colors fuzzel kitty wlogout; do
   copiar_dir "$II/$app" "$HOME/.config/$app"
 done
+$SIMULAR || {
+# kitty: ii reemplaza ~/.config/kitty; lo propio (zsh, paneles) se engancha al final
+grep -qs kitty-propio "$HOME/.config/kitty/kitty.conf" ||
+  printf '\n# Lo propio (fuera de esta carpeta, que ii reemplaza al actualizar)\ninclude ~/.config/kitty-propio/propio.conf\n' >> "$HOME/.config/kitty/kitty.conf"
+}
 # ii arranca este script al iniciar; lo rellena end4-pC si pones un video de fondo
 VIDEO=$HOME/.config/hypr/custom/scripts/__restore_video_wallpaper.sh
 [[ -f $VIDEO ]] || copiar_archivo "$FUENTES/ii/dots/.config/hypr/custom/scripts/${VIDEO##*/}" "$VIDEO"

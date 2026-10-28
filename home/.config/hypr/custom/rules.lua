@@ -27,4 +27,5 @@ hl.window_rule({
 hl.window_rule({ name = "c-video-despierto", match = { class = ".*" }, idle_inhibit = "fullscreen" })
 
 -- Terminal desplegable (Super + tecla a la izquierda del 1): se abre sola la primera vez
-hl.workspace_rule({ workspace = "special:terminal", on_created_empty = "kitty", gaps_out = 40 })
+-- Abre fish (la principal, Super + Enter, es zsh)
+hl.workspace_rule({ workspace = "special:terminal", on_created_empty = "kitty fish", gaps_out = 40 })

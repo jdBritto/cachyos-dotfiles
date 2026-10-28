@@ -58,6 +58,10 @@ cat >> "$HYPR/custom/general.lua" <<'EOF'
 hl.config({ input = { kb_layout = "latam" } })
 EOF
 
+# kitty: ii reemplaza ~/.config/kitty; lo propio (zsh, paneles) se engancha al final
+grep -qs kitty-propio "$HOME/.config/kitty/kitty.conf" ||
+  printf '\n# Lo propio (fuera de esta carpeta, que ii reemplaza al actualizar)\ninclude ~/.config/kitty-propio/propio.conf\n' >> "$HOME/.config/kitty/kitty.conf"
+
 verde "5. Recargando"
 hyprctl reload
 killall qs quickshell 2>/dev/null; sleep 1

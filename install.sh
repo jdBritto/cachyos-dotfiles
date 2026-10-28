@@ -249,7 +249,8 @@ done
 apartar .local/share/backgrounds/parrot
 apartar .config/systemd/user/hyprpolkitagent.service.d   # end4-pC trae su agente polkit
 # hyprland.lua es el de ii (lo copia extras/shell.sh); lo propio va en custom/ y scripts/
-copiar .config/hypr/custom .config/hypr/scripts .config/hypr/hypridle.conf
+copiar .config/hypr/custom .config/hypr/scripts .config/hypr/hypridle.conf \
+  .config/kitty-propio .config/fish/conf.d/propio.fish
 quiere herramientas && copiar .config/mise
 if ! $SIMULAR; then
   chmod +x "$HOME"/.config/hypr/scripts/*.{sh,py}
