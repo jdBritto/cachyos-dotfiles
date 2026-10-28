@@ -116,6 +116,7 @@ copiar_dir "$FUENTES/end4-pC" "$HOME/.config/quickshell/end4-pC"
 copiar_dir "$II/hypr/hyprland" "$HOME/.config/hypr/hyprland"
 copiar_dir "$II/hypr/hyprlock" "$HOME/.config/hypr/hyprlock"
 copiar_archivo "$II/hypr/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
+copiar_archivo "$II/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
 for app in matugen Kvantum kde-material-you-colors fuzzel kitty wlogout; do
   copiar_dir "$II/$app" "$HOME/.config/$app"
 done

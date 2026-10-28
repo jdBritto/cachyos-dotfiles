@@ -12,8 +12,11 @@ Responder siempre en **español**, con mensajes cortos y sencillos.
   paquetes pensados para Parrot. Se mejora con lo aprendido de end4-pC, illogical-impulse y gh0stzk.
 
 ## Cómo está armado `~/.config/hypr`
-- `hyprland.lua` (del repo): carga `hyprland/` (ii, sin tocar) → `custom/` (del repo) →
-  `hyprland/shellOverrides/main.lua` (lo guarda la interfaz) → `custom/modo.lua` → `personal.lua`.
+- `hyprland.lua` es el de ii (sin tocar): `hyprland/` → `custom/{env,execs,general,rules,keybinds}.lua`
+  (variables.lua lo carga hyprland/keybinds.lua) → monitors.lua → `hyprland/shellOverrides/main.lua`.
+  `custom/general.lua` requiere `custom.pantallas` y `custom.modo`. Como shellOverrides va al final,
+  `custom/modo.lua` aplica los efectos con `hl.on("config.reloaded")` y `hl.on("hyprland.start")`.
+  Ya no hay `personal.lua`.
 - `hyprland/`, `hyprlock/`, `hyprlock.conf` vienen de ii (los copia `extras/shell.sh`).
 - `custom/`: teclado del sistema, touchpad, pantallas (nwg-displays → `monitors.conf`), reglas,
   atajos extra (Super + I Centro, Super + Escape ajustes end4-pC, Super + Alt + P/D), modo.
@@ -29,7 +32,16 @@ Responder siempre en **español**, con mensajes cortos y sencillos.
 - `modo.sh vigilar` escucha power-profiles-daemon por D-Bus: el botón de energía de end4-pC
   cambia el modo de Hyprland.
 - ii y end4-pC se clonan en commits fijados (`extras/shell.sh`) en `~/.local/share/hypr-cachyos/fuentes`.
-- **Nunca** ejecutar `./setup install` de end-4: hace `rsync --delete` sobre `~/.config/hypr`.
+- `./setup install` de end-4: hace `rsync --delete` solo sobre `hypr/hyprland`, `~/.config/quickshell`
+  (borra end4-pC), kitty, fish, fuzzel, matugen, etc. NO toca `custom/` si ya existe; pisa `hyprland.lua`.
+  Choca con `quickshell`, `adw-gtk-theme` y `ttf-material-symbols-variable` de CachyOS (quitar con -Rdd).
+
+## Estado (2026-10-27, noche)
+- Reinstalado en limpio con `extras/instalar-limpio.sh`: setup oficial de ii + end4-pC segun su README.
+- Reintegrado en `custom/` y `scripts/`: latam, atajos extra, Centro, modos, distribucion, terminal
+  desplegable, reglas, hypridle (suspender solo con bateria). Cursor: Bibata de ii (WhiteSur ya no se usa).
+- Capa anterior apartada en `~/.config/hypr-anterior-20261027-2307` (por si falta algo).
+- Respaldo previo: `~/respaldo-antes-setup-ii-20261027-2306.tar.gz`; el de ii: `~/ii-original-dots-backup`.
 
 ## Trucos
 - Validar: `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua` (sí detecta errores de Lua).

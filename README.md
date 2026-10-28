@@ -115,8 +115,8 @@ Todo está en `~/.config/hypr/`:
 
 | Carpeta / archivo | Qué es |
 |---|---|
-| `personal.lua` | **Tus cambios.** Se carga al final y el instalador nunca lo sobrescribe |
-| `custom/` | Lo de este repositorio: teclado, touchpad, reglas, atajos extra, modo de energía |
+| `hyprland.lua` | El de illogical-impulse: carga `hyprland/`, luego `custom/` y al final los ajustes de end4-pC |
+| `custom/` | **Lo propio** (ii no lo pisa al actualizar): teclado latam, reglas, atajos extra, modo de energía |
 | `hyprland/` | Base de illogical-impulse. No la edites: se reemplaza al actualizar |
 | `scripts/` | Centro, modo de energía, distribución, pantallas, `ajustes-end4.py` |
 | `monitors.lua` | Pantallas (lo guardan los ajustes de end4-pC y nwg-displays) |

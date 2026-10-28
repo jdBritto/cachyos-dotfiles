@@ -248,12 +248,10 @@ for s in atajos barra captura energia escritorios fondo lanzador luz navegador n
 done
 apartar .local/share/backgrounds/parrot
 apartar .config/systemd/user/hyprpolkitagent.service.d   # end4-pC trae su agente polkit
-copiar .config/hypr/hyprland.lua .config/hypr/custom .config/hypr/scripts .config/hypr/hypridle.conf \
-  .local/share/icons/WhiteSur-cursors
+# hyprland.lua es el de ii (lo copia extras/shell.sh); lo propio va en custom/ y scripts/
+copiar .config/hypr/custom .config/hypr/scripts .config/hypr/hypridle.conf
 quiere herramientas && copiar .config/mise
 if ! $SIMULAR; then
-  # personal.lua es tuyo: solo se copia la primera vez
-  [[ -f $HOME/.config/hypr/personal.lua ]] || cp "$REPO/home/.config/hypr/personal.lua" "$HOME/.config/hypr/"
   chmod +x "$HOME"/.config/hypr/scripts/*.{sh,py}
   xdg-user-dirs-update 2>/dev/null || true
 fi
@@ -352,7 +350,7 @@ verde "Listo"
 echo "Reinicia y entra en la sesion \"Hyprland\" (no la de UWSM) de la pantalla de inicio."
 echo
 echo "  Super (solo)     buscar aplicaciones"
-echo "  Super + /        ver todos los atajos"
+echo "  Super + F1       ver todos los atajos"
 echo "  Super + I        Centro: modo de energia, ventanas, VPN, pantallas"
 echo "  Super + Escape   ajustes de end4-pC (colores, barra, fondo...)"
 echo "  Ctrl + Super + T elegir fondo (los colores salen de el)"
@@ -360,7 +358,7 @@ quiere apps && echo "  Firmware de Lenovo:  fwupdmgr refresh && fwupdmgr update"
 quiere bateria && echo "  Bateria al 100% una vez:  bateria-completa"
 quiere respaldo && echo "  VPN del trabajo:  vpn-trabajo      Google Drive:  ~/Drive"
 echo
-echo "Tus cambios van en ~/.config/hypr/personal.lua (nunca se sobrescribe)."
+echo "Tus cambios van en ~/.config/hypr/custom/ (ii no lo sobrescribe al actualizar)."
 if ((${#AVISOS[@]})); then
   printf '\n\033[1;33mHubo %d aviso(s):\033[0m\n' "${#AVISOS[@]}"
   printf '  - %s\n' "${AVISOS[@]}"
